@@ -30,7 +30,7 @@ public class Vector {
         return new Vector(x+vector.getVector()[0], y + vector.getVector()[1]);
     }
     public Vector minus(Vector vector){
-        return new Vector(vector.x - x, vector.y - y);
+        return new Vector(x - vector.x, y - vector.y);
     }
 
     public double length(){
