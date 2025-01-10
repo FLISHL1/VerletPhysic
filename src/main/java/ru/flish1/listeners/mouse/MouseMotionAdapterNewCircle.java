@@ -1,4 +1,4 @@
-package ru.flish1.listeners;
+package ru.flish1.listeners.mouse;
 
 import ru.flish1.figure.Circle;
 import ru.flish1.figure.CircleFactory;

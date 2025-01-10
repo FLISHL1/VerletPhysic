@@ -13,6 +13,14 @@ public class Vector {
         return new double[]{x, y};
     }
 
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
     public void setX(double x) {
         this.x = x;
     }

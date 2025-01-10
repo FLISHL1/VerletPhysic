@@ -1,23 +1,22 @@
 package ru.flish1.circleLogic;
 
+import ru.flish1.constraints.Constraint;
 import ru.flish1.figure.Circle;
 import ru.flish1.model.Vector;
 
 import java.util.List;
 
 public class CircleUpdater {
-    public final Vector CENTER_CONSTRAINS;
     public final List<Circle> circles;
     public final double timeForRepaint;
     public final Vector gravity = new Vector(0, 1);
-    public double RADIUS_CONSTRAINS;
     public double subSteps = 16;
+    public Constraint constraint;
 
-    public CircleUpdater(Vector CENTER_CONSTRAINS, List<Circle> circles, double timeForRepaint, double RADIUS_CONSTRAINS) {
-        this.CENTER_CONSTRAINS = CENTER_CONSTRAINS;
+    public CircleUpdater(Constraint constraint, List<Circle> circles, double timeForRepaint) {
         this.circles = circles;
         this.timeForRepaint = timeForRepaint;
-        this.RADIUS_CONSTRAINS = RADIUS_CONSTRAINS;
+        this.constraint = constraint;
     }
 
     public void start() {
@@ -61,12 +60,7 @@ public class CircleUpdater {
 
     private void applyConstraints() {
         for (Circle circle : circles) {
-            Vector toObj = circle.getPosition().minus(CENTER_CONSTRAINS);
-            double dist = toObj.length();
-            if (dist > RADIUS_CONSTRAINS - circle.getRadius()) {
-                Vector n = toObj.division(dist);
-                circle.setPosition(CENTER_CONSTRAINS.append(n.multiply(RADIUS_CONSTRAINS - circle.getRadius())));
-            }
+            constraint.applyConstraint(circle);
         }
     }
 }
