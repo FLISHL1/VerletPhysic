@@ -25,8 +25,14 @@ public class CircleConstraint extends Ellipse2D.Double implements Constraint {
         Vector toObj = circle.getPosition().minus(getPosition());
         double dist = toObj.length();
         if (dist > radius - circle.getRadius()) {
+            if (!circle.isConstraint) {
+                circle.accelerate(circle.getVelocity().division(16 / 1000.0).multiply(-1).multiply(0.8));
+                circle.isConstraint = true;
+            }
             Vector n = toObj.division(dist);
             circle.setPosition(getPosition().append(n.multiply(radius - circle.getRadius())));
+        } else {
+            circle.isConstraint = false;
         }
     }
 

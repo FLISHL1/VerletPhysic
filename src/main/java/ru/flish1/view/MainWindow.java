@@ -11,9 +11,11 @@ import ru.flish1.listeners.mouse.MouseMotionAdapterNewCircle;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainWindow extends JFrame {
     private final int HEIGHT = 800;
@@ -23,15 +25,16 @@ public class MainWindow extends JFrame {
     private int timeForRepaint = 16;
     private final CircleUpdater circleUpdater;
     private Constraint constraint;
+    private ExecutorService executorService;
 
     public MainWindow() {
         super("VerletPhysic");
-        circles = new ArrayList<>();
+        circles = new CopyOnWriteArrayList<>();
         applySettings();
 //        constraint = new CircleConstraint(50, 50, 356);
         constraint = new RectangleConstraint(50, 50, 700, 700);
         circleUpdater = new CircleUpdater(constraint, circles, timeForRepaint);
-
+        executorService = Executors.newSingleThreadExecutor();
     }
 
     public List<Circle> getCircles() {
@@ -72,7 +75,7 @@ public class MainWindow extends JFrame {
     }
 
     private void startMagic(Graphics2D g2d) {
-        circleUpdater.start();
+        executorService.execute(circleUpdater);
         paintObj(g2d);
     }
 
@@ -88,7 +91,7 @@ public class MainWindow extends JFrame {
 
     private void paintObj(Graphics2D g2d) {
         for (Circle circle : circles) {
-            circle.paintCircle(g2d);
+            circle.paint(g2d);
         }
     }
 

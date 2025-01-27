@@ -18,4 +18,12 @@ public class MouseMotionAdapterNewCircle extends MouseMotionAdapter {
     public void mouseDragged(MouseEvent e) {
         circleList.add(CircleFactory.createCircleWithRandomColorAndDefaultRadius(e.getX(), e.getY()));
     }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+//        circleList.add(CircleFactory.createCircleWithRandomColorAndDefaultRadius(e.getX(), e.getY()));
+//        circleList.add(CircleFactory.createCircleWithRandomColorAndDefaultRadius(e.getX(), e.getY()));
+//        circleList.add(CircleFactory.createCircleWithRandomColorAndDefaultRadius(e.getX(), e.getY()));
+
+    }
 }

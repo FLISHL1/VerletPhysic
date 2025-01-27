@@ -6,7 +6,8 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 public class Circle extends Ellipse2D.Double {
-    private double radius = width;
+    public boolean isConstraint = false;
+    private double radius;
     private Vector acceleration = new Vector(0, 0);
     public Vector positionOld;
     private final double DIVISION_DT = 7;
@@ -39,11 +40,15 @@ public class Circle extends Ellipse2D.Double {
 
 
     public void updatePosition(double dt) {
-        Vector velocity = getPosition().minus(positionOld);
+        Vector velocity = getVelocity();
         positionOld = getPosition();
         dt /= DIVISION_DT;
         setPositionP(getPosition().append(velocity.append(acceleration.multiply(dt * dt))));
         acceleration.clear();
+    }
+
+    public Vector getVelocity() {
+        return getPosition().minus(positionOld);
     }
 
     public void accelerate(Vector acc) {
@@ -58,8 +63,11 @@ public class Circle extends Ellipse2D.Double {
         this.color = color;
     }
 
-    public void paintCircle(Graphics2D g2d) {
+    public void paint(Graphics2D g2d) {
         g2d.setColor(getColor());
         g2d.fill(this);
+/*        g2d.setColor(Color.WHITE);
+        g2d.drawLine((int) getCenterX(), (int) getCenterY(), (int) (getVelocity().getX() + getCenterX()), (int) (getVelocity().getY() + getCenterY()));
+        System.out.println(acceleration);*/
     }
 }
